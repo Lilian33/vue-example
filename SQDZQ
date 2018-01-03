@@ -1,0 +1,68 @@
+#define NTD1 262
+#define NTD2 294
+#define NTD3 330
+#define NTD4 349
+#define NTD5 392
+#define NTD6 440
+#define NTD7 494
+
+#define NTDL1 131
+#define NTDL2 147
+#define NTDL3 165
+#define NTDL4 175
+#define NTDL5 196
+#define NTDL6 221
+#define NTDL7 248//定义音节
+
+
+#define WHOLE 1
+#define HALF 0.5
+#define QUARTER 0.25
+#define EIGHTH 0.25
+#define SIXTEENTH 0.625//定义节奏
+
+int tune[]=
+{
+  NTD1,NTD1,NTD1,NTDL5,
+  NTD3,NTD3,NTD3,NTD1,
+  NTD1,NTD3,NTD5,NTD5,
+  NTD4,NTD3,NTD2,
+  NTD2,NTD3,NTD4,NTD4,
+  NTD3,NTD2,NTD3,NTD1,
+  NTD1,NTD3,NTD2,NTDL5,
+  NTDL7,NTD2,NTD1
+};//曲谱
+float durt[]=
+{
+  0.5,0.5,1,1,
+  0.5,0.5,1,1,
+  0.5,0.5,1,1,
+  0.5,0.5,1+1,
+  0.5,0.5,1,1,
+  0.5,0.5,1,1,
+  0.5,0.5,1,1,
+  0.5,0.5,1+1,
+};//节奏谱
+int length;
+int tonePIN=8;
+int ledPIN=3;
+void setup()
+{
+  pinMode(tonePIN,OUTPUT);
+  pinMode(ledPIN,OUTPUT);
+  length=sizeof(tune)/sizeof(tune[0]);
+}
+void loop()
+{
+  for(int x=0;x<length;x++)
+  {
+    tone(tonePIN,tune[x]);
+    digitalWrite(ledPIN, HIGH); 
+    delay(800*durt[x]);//这里用来根据节拍调节延时，指数可以自己调整。这里将1000分为了800和200，分别控制led的开与关，对于蜂鸣器来说是1000。
+    digitalWrite(ledPIN, LOW);
+    delay(200*durt[x]);
+    noTone(tonePIN);
+    
+  }
+  delay(2000);
+}
