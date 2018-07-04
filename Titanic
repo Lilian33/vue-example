@@ -1,0 +1,19 @@
+#!/bin/bash
+cd ~/Desktop
+awk -F, '{print $11}' train.csv > fare.csv
+sed -i '1d' fare
+cat fare|awk 'BEGIN {max = 0} {if ($1+0 > max+0) max=$1} END {print "Fare Max=", max}' 
+cat fare|awk 'BEGIN {min = 65536} {if ($1+0 < min+0) min=$1} END {print "Fare Min=", min}'
+awk -F, '{print $7}' train.csv > age.csv
+sed -i '1d' age 
+sed -i '/^$/d' age
+cat age|awk 'BEGIN {max = 0} {if ($1+0 > max+0) max=$1} END {print "Age Max=", max}' 
+cat age|awk 'BEGIN {min = 65536} {if ($1+0 < min+0) min=$1} END {print "Age Min=", min}'
+awk -F, '{print $1","$2","$3","$6","$7","$8","$9","$11","$12","$13","}' train.csv > new_train.csv
+awk -F, '{print $12}' train.csv > cabin.csv
+echo "The number of missing rows："
+cat cabin.csv | grep ^$ | wc -l
+awk -F, '{print $2}' train.csv > new.csv
+cat new.csv | grep ^1 | wc -l
+echo "The survival rate："
+echo "scale=4;342/891" | bc
